@@ -48,15 +48,17 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/rodrigo-miranda.webp" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308080a'/><text x='16' y='23' font-family='serif' font-size='20' text-anchor='middle' fill='%23c8a45c'>RM</text></svg>" />
+  <script is:inline>document.documentElement.classList.add("js")</script>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </head>
 <body>
-  <header class="top wrap">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="top"><div class="wrap top-in">
     <a class="brand" href="#inicio">Rodrigo Miranda</a>
     <nav aria-label="Principal">
       <a href="#atuacao">Atuação</a><a href="#como">Como funciona</a><a href="#duvidas">Dúvidas</a><a href="#contato">Contato</a>
     </nav>
-  </header>
+  </div></header>
 
   <main id="inicio">
     <section class="hero wrap">
@@ -85,6 +87,7 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
       <div class="wrap section">
         <p class="eyebrow">Como funciona</p>
         <h2>Do primeiro contato à <em>defesa</em></h2>
+        <div class="rail" aria-hidden="true"><span></span></div>
         <ol class="steps">
           {passos.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}
         </ol>
@@ -128,6 +131,65 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
     <p>Conteúdo de caráter informativo. Não substitui a análise individual do caso nem representa garantia de resultado.</p>
   </footer>
 
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const $$ = (q) => [...document.querySelectorAll(q)];
+
+    // Entrada ao rolar, com atraso em cascata entre itens vizinhos
+    const items = $$('.hero > div > *, .portrait, .section > .eyebrow, .section > h2, .about > div > *, .areas li, .steps li, .faq details, .contact > div > *, .contact dl');
+    items.forEach((el) => {
+      el.classList.add('reveal');
+      const i = [...el.parentElement.children].indexOf(el);
+      el.style.setProperty('--d', Math.min(i, 5) * 90 + 'ms');
+    });
+    if (reduced || !('IntersectionObserver' in window)) {
+      items.forEach((el) => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      items.forEach((el) => io.observe(el));
+    }
+
+    // Efeitos ligados à rolagem
+    const top = document.querySelector('.top');
+    const bar = document.querySelector('.progress');
+    const rail = document.querySelector('.rail');
+    const img = document.querySelector('.portrait img');
+    let queued = false;
+    const onScroll = () => {
+      queued = false;
+      const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+      top.classList.toggle('scrolled', y > 24);
+      bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      if (reduced) { rail.style.setProperty('--p', 1); return; }
+      const r = rail.getBoundingClientRect();
+      const t = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (innerHeight * 0.5)));
+      rail.style.setProperty('--p', t);
+      img.style.setProperty('--py', Math.min(y, 800) * 0.03 + 'px');
+    };
+    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(onScroll); } }, { passive: true });
+    addEventListener('resize', onScroll);
+    onScroll();
+
+    // Efeitos de mouse
+    if (fine && !reduced) {
+      $$('.areas li').forEach((el) => el.addEventListener('pointermove', (e) => {
+        const b = el.getBoundingClientRect();
+        el.style.setProperty('--x', e.clientX - b.left + 'px');
+        el.style.setProperty('--y', e.clientY - b.top + 'px');
+      }));
+      const card = document.querySelector('.portrait');
+      card.addEventListener('pointermove', (e) => {
+        const b = card.getBoundingClientRect();
+        card.style.setProperty('--rx', ((e.clientY - b.top) / b.height - 0.5) * -5 + 'deg');
+        card.style.setProperty('--ry', ((e.clientX - b.left) / b.width - 0.5) * 5 + 'deg');
+      });
+      card.addEventListener('pointerleave', () => { card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
+    }
+  </script>
+
   <a class="float" href={wa} target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><Fragment set:html={WaIcon} /> <span>WhatsApp</span></a>
 </body>
 </html>
@@ -146,28 +208,53 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
   em { font-style:italic; color:var(--gold-l); }
   h3 { font-size:1.08rem; font-weight:600; color:#fff; margin-bottom:6px; }
   .eyebrow { color:var(--gold); font-size:.8rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; margin-bottom:16px; }
-  .top { display:flex; justify-content:space-between; align-items:center; padding-block:22px; }
+  .top { position:sticky; top:0; z-index:4; border-bottom:1px solid transparent; transition:background .3s, border-color .3s; }
+  .top.scrolled { background:#08080acc; backdrop-filter:blur(12px); border-color:var(--line); }
+  .top-in { display:flex; justify-content:space-between; align-items:center; padding-block:22px; transition:padding .3s; }
+  .scrolled .top-in { padding-block:13px; }
+  .progress { position:fixed; inset:0 0 auto; height:2px; z-index:6; background:linear-gradient(90deg,var(--gold),var(--gold-l)); transform:scaleX(0); transform-origin:left; }
   .brand { font-size:1.35rem; text-decoration:none; color:#fff; }
   nav { display:flex; gap:28px; }
   nav a { color:var(--muted); font-size:.92rem; text-decoration:none; }
+  nav a { position:relative; padding-block:4px; transition:color .25s; }
+  nav a::after { content:''; position:absolute; inset:auto 0 0; height:1px; background:var(--gold-l); transform:scaleX(0); transform-origin:right; transition:transform .3s; }
   nav a:hover { color:var(--gold-l); }
+  nav a:hover::after { transform:scaleX(1); transform-origin:left; }
   .hero { display:grid; grid-template-columns:1.25fr .75fr; gap:56px; align-items:center; padding-block:48px 88px; }
   .lead { color:#c9cad2; font-size:1.15rem; max-width:32em; margin:24px 0 32px; }
   .note { color:var(--muted); font-size:.9rem; margin-top:18px; }
-  .btn,.float { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#0b0b0d; font-weight:600; text-decoration:none; border-radius:99px; transition:background .2s; }
+  .btn,.float { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#0b0b0d; font-weight:600; text-decoration:none; border-radius:99px; transition:background .25s, transform .25s, box-shadow .25s; }
+  .btn svg,.float svg { transition:transform .25s; }
+  .btn:hover,.float:hover { transform:translateY(-2px); box-shadow:0 10px 30px #c8a45c55; }
+  .btn:hover svg,.float:hover svg { transform:scale(1.15) rotate(-8deg); }
+  .btn { position:relative; overflow:hidden; }
+  .btn::after { content:''; position:absolute; inset:0 auto 0 -60%; width:40%; background:linear-gradient(100deg,transparent,#fff7,transparent); transform:skewX(-20deg); transition:left .6s; }
+  .btn:hover::after { left:120%; }
+  .reveal { transition:opacity .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms); }
+  .js .reveal:not(.in) { opacity:0; transform:translateY(26px); }
   .btn { padding:15px 26px; }
   .btn:hover,.float:hover { background:var(--gold-l); }
+  .portrait.in { transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); }
+  .portrait:hover { border-color:var(--gold); }
   .portrait { position:relative; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:radial-gradient(circle at 50% 30%,#3a3120,#121317 70%); }
-  .portrait img { display:block; width:100%; height:auto; }
+  .portrait img { display:block; width:100%; height:auto; transform:translateY(var(--py,0px)) scale(1.03); transform-origin:bottom; }
   .portrait figcaption { position:absolute; inset:auto 0 0; display:flex; flex-direction:column; padding:44px 20px 18px; background:linear-gradient(transparent,#08080af2 60%); }
   .portrait strong { font:400 1.35rem 'Playfair Display',serif; color:#fff; }
   .portrait span { color:var(--gold-l); font-size:.85rem; }
   .section { padding-block:88px; }
   .band { background:var(--panel); border-block:1px solid var(--line); }
   .areas { list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:0 40px; margin-top:44px; }
-  .areas li { border-top:1px solid var(--gold); padding:22px 0 30px; }
+  .areas li { position:relative; border-top:1px solid var(--line); padding:24px 20px 32px; overflow:hidden; }
+  .areas li::before { content:''; position:absolute; inset:-1px 0 auto; height:2px; background:var(--gold); transform:scaleX(.18); transform-origin:left; transition:transform .45s cubic-bezier(.2,.7,.2,1); }
+  .areas li::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s; background:radial-gradient(260px circle at var(--x,50%) var(--y,50%),#c8a45c26,transparent 70%); }
+  .areas li:hover::before { transform:scaleX(1); }
+  .areas li:hover::after { opacity:1; }
+  .areas h3 { transition:color .25s, transform .3s; }
+  .areas li:hover h3 { color:var(--gold-l); transform:translateX(4px); }
   .areas p,.steps p { color:var(--muted); font-size:.97rem; }
-  .steps { list-style:none; padding:0; counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:32px; margin-top:44px; }
+  .rail { height:1px; background:var(--line); margin-top:44px; }
+  .rail span { display:block; height:100%; background:var(--gold); transform:scaleX(var(--p,0)); transform-origin:left; }
+  .steps { list-style:none; padding:0; counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:32px; margin-top:28px; }
   .steps li { counter-increment:s; }
   .steps li::before { content:counter(s,decimal-leading-zero); display:block; font:italic 2rem 'Playfair Display',serif; color:var(--gold); margin-bottom:12px; }
   .about { display:grid; grid-template-columns:1fr 3fr; gap:32px; }
@@ -175,7 +262,10 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
   .about p:not(.quote,.eyebrow) { color:var(--muted); max-width:42em; }
   .faq { margin-top:36px; border-bottom:1px solid var(--line); }
   details { border-top:1px solid var(--line); }
-  summary { cursor:pointer; padding:20px 0; font-weight:500; color:#fff; }
+  summary { cursor:pointer; padding:20px 0; font-weight:500; color:#fff; transition:color .25s, padding .25s; }
+  summary:hover { color:var(--gold-l); padding-left:6px; }
+  details[open] p { animation:open .35s ease-out; }
+  @keyframes open { from { opacity:0; transform:translateY(-6px); } }
   summary::marker { color:var(--gold); }
   details p { color:var(--muted); padding:0 0 22px; max-width:46em; }
   .contact { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
@@ -195,5 +285,5 @@ const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentCol
     footer { padding-bottom:90px; }
   }
   @media (max-width:480px) { .steps { grid-template-columns:1fr; } .btn { width:100%; justify-content:center; } }
-  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { transition:none!important; } }
+  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { transition:none!important; animation:none!important; } }
 </style>
