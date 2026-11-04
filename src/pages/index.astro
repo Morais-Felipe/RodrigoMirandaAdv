@@ -1,0 +1,199 @@
+---
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/400-italic.css';
+import '@fontsource-variable/inter';
+
+const wa = 'https://wa.me/5534992097100?text=' + encodeURIComponent('Olá, Dr. Rodrigo! Gostaria de solicitar a análise do meu caso de trânsito.');
+const email = 'rodrigomirandaadv77@gmail.com';
+const endereco = 'Av. Frei Paulino, 276 - Vila Nossa Sra. Abadia, Uberaba - MG, 38025-180';
+const mapa = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(endereco);
+
+const areas = [
+  ['Recusa ao bafômetro', 'Análise do auto de infração e do procedimento adotado na abordagem.'],
+  ['Excesso de velocidade', 'Verificação da autuação e dos requisitos formais exigidos pela legislação.'],
+  ['Exame toxicológico', 'Orientação e defesa em infrações relacionadas ao exame toxicológico.'],
+  ['Multas em geral', 'Elaboração de recursos administrativos contra autuações de trânsito.'],
+  ['Suspensão e cassação da CNH', 'Atuação em processos administrativos que envolvem o direito de dirigir.'],
+];
+const passos = [
+  ['Contato', 'Você chama no WhatsApp e explica o que aconteceu.'],
+  ['Análise', 'A notificação e os documentos do caso são analisados individualmente.'],
+  ['Orientação', 'Você recebe uma explicação clara sobre os caminhos juridicamente possíveis.'],
+  ['Recurso', 'Sendo o caso, a defesa é elaborada e apresentada dentro do prazo.'],
+];
+const faq = [
+  ['Recusar o bafômetro é infração?', 'Sim. O artigo 165-A do Código de Trânsito Brasileiro prevê a recusa ao teste como infração administrativa. Cada autuação tem suas particularidades e deve ser analisada individualmente.'],
+  ['Qual é o prazo para recorrer?', 'O prazo consta na notificação recebida. Por isso, vale buscar orientação assim que ela chegar, sem esperar o vencimento.'],
+  ['O que devo separar para a análise?', 'A notificação ou o auto de infração e outros documentos relacionados ao caso. Se ainda não tiver tudo, entre em contato mesmo assim.'],
+  ['Preciso ser de Uberaba?', 'Não. O atendimento presencial é em Uberaba (MG), mas a atuação alcança todo o Brasil.'],
+  ['O resultado do recurso é garantido?', 'Não. Nenhum advogado pode garantir resultado. O compromisso é com a análise técnica e a melhor solução juridicamente possível para cada situação.'],
+];
+const schema = {
+  '@context': 'https://schema.org', '@type': 'LegalService', name: 'Rodrigo Miranda', telephone: '+55-34-99209-7100', email,
+  address: { '@type': 'PostalAddress', streetAddress: 'Av. Frei Paulino, 276', addressLocality: 'Uberaba', addressRegion: 'MG', postalCode: '38025-180', addressCountry: 'BR' },
+  openingHours: ['Mo-Fr 08:30-11:00', 'Mo-Fr 14:00-17:00'], areaServed: 'BR',
+};
+const WaIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.4l-.7-1.8c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.9 2.3 1 2.5c.1.2 1.7 2.7 4.2 3.7 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1 0-.2-.2-.3-.4-.4Z"/></svg>';
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rodrigo Miranda | Recursos de multas e processos de trânsito</title>
+  <meta name="description" content="Análise técnica e recursos administrativos em recusa ao bafômetro, excesso de velocidade, exame toxicológico, multas e processos da CNH. Uberaba (MG), com atuação em todo o Brasil." />
+  <meta name="theme-color" content="#08080a" />
+  <meta property="og:title" content="Rodrigo Miranda | Recursos de multas e processos de trânsito" />
+  <meta property="og:description" content="Recusa ao bafômetro, excesso de velocidade, exame toxicológico, multas e CNH." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/rodrigo-miranda.webp" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308080a'/><text x='16' y='23' font-family='serif' font-size='20' text-anchor='middle' fill='%23c8a45c'>RM</text></svg>" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <header class="top wrap">
+    <a class="brand" href="#inicio">Rodrigo Miranda</a>
+    <nav aria-label="Principal">
+      <a href="#atuacao">Atuação</a><a href="#como">Como funciona</a><a href="#duvidas">Dúvidas</a><a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero wrap">
+      <div>
+        <p class="eyebrow">Multas e processos de trânsito</p>
+        <h1>Recusou o bafômetro ou foi <em>autuado?</em></h1>
+        <p class="lead">Atendimento personalizado e análise técnica da sua infração, com defesa fundamentada na legislação vigente.</p>
+        <a class="btn" href={wa} target="_blank" rel="noopener"><Fragment set:html={WaIcon} /> Solicitar análise do caso</a>
+        <p class="note">Uberaba (MG) · Atuação em todo o Brasil</p>
+      </div>
+      <figure class="portrait">
+        <img src="/rodrigo-miranda.webp" width="900" height="1013" alt="Retrato de Rodrigo Miranda, de terno escuro e gravata azul" fetchpriority="high" />
+        <figcaption><strong>Rodrigo Miranda</strong><span>Recursos de multas e processos de trânsito</span></figcaption>
+      </figure>
+    </section>
+
+    <section id="atuacao" class="wrap section">
+      <p class="eyebrow">Áreas de atuação</p>
+      <h2>Cada caso merece uma análise <em>individual</em></h2>
+      <ul class="areas">
+        {areas.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}
+      </ul>
+    </section>
+
+    <section id="como" class="band">
+      <div class="wrap section">
+        <p class="eyebrow">Como funciona</p>
+        <h2>Do primeiro contato à <em>defesa</em></h2>
+        <ol class="steps">
+          {passos.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section id="sobre" class="wrap section about">
+      <p class="eyebrow">Sobre</p>
+      <div>
+        <p class="quote">Defender direitos é mais do que um trabalho: é um compromisso com a justiça e a legalidade.</p>
+        <p>Atuando com ética, responsabilidade e comprometimento, Rodrigo Miranda trabalha na elaboração de recursos administrativos, buscando identificar possíveis irregularidades e assegurar o respeito aos direitos dos condutores.</p>
+      </div>
+    </section>
+
+    <section id="duvidas" class="wrap section">
+      <p class="eyebrow">Dúvidas frequentes</p>
+      <h2>Antes de <em>falar conosco</em></h2>
+      <div class="faq">
+        {faq.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}
+      </div>
+    </section>
+
+    <section id="contato" class="band">
+      <div class="wrap section contact">
+        <div>
+          <p class="eyebrow">Contato</p>
+          <h2>Recebeu uma notificação? <em>Fale agora.</em></h2>
+          <a class="btn" href={wa} target="_blank" rel="noopener"><Fragment set:html={WaIcon} /> (34) 9.9209-7100</a>
+        </div>
+        <dl>
+          <dt>Endereço</dt><dd><a href={mapa} target="_blank" rel="noopener">{endereco}</a></dd>
+          <dt>Atendimento presencial</dt><dd>Segunda a sexta, das 8h30 às 11h e das 14h às 17h</dd>
+          <dt>E-mail</dt><dd><a href={`mailto:${email}`}>{email}</a></dd>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Rodrigo Miranda</p>
+    <p>Conteúdo de caráter informativo. Não substitui a análise individual do caso nem representa garantia de resultado.</p>
+  </footer>
+
+  <a class="float" href={wa} target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><Fragment set:html={WaIcon} /> <span>WhatsApp</span></a>
+</body>
+</html>
+
+<style is:global>
+  :root { --bg:#08080a; --panel:#121317; --line:#2a2b31; --text:#e6e6ea; --muted:#a4a6b0; --gold:#c8a45c; --gold-l:#e5cd93; }
+  * { box-sizing:border-box; margin:0; }
+  html { scroll-behavior:smooth; scroll-padding-top:24px; }
+  body { background:var(--bg); color:var(--text); font:400 17px/1.6 'Inter Variable',system-ui,sans-serif; overflow-x:hidden; }
+  a { color:inherit; }
+  :focus-visible { outline:2px solid var(--gold-l); outline-offset:3px; }
+  .wrap { width:min(1120px,100%); margin-inline:auto; padding-inline:24px; }
+  h1,h2,.quote,.brand { font-family:'Playfair Display',Georgia,serif; font-weight:400; }
+  h1 { font-size:clamp(2.7rem,6.6vw,5rem); line-height:1.06; letter-spacing:-.01em; }
+  h2 { font-size:clamp(2rem,4.4vw,3.2rem); line-height:1.12; max-width:17em; }
+  em { font-style:italic; color:var(--gold-l); }
+  h3 { font-size:1.08rem; font-weight:600; color:#fff; margin-bottom:6px; }
+  .eyebrow { color:var(--gold); font-size:.8rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; margin-bottom:16px; }
+  .top { display:flex; justify-content:space-between; align-items:center; padding-block:22px; }
+  .brand { font-size:1.35rem; text-decoration:none; color:#fff; }
+  nav { display:flex; gap:28px; }
+  nav a { color:var(--muted); font-size:.92rem; text-decoration:none; }
+  nav a:hover { color:var(--gold-l); }
+  .hero { display:grid; grid-template-columns:1.25fr .75fr; gap:56px; align-items:center; padding-block:48px 88px; }
+  .lead { color:#c9cad2; font-size:1.15rem; max-width:32em; margin:24px 0 32px; }
+  .note { color:var(--muted); font-size:.9rem; margin-top:18px; }
+  .btn,.float { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#0b0b0d; font-weight:600; text-decoration:none; border-radius:99px; transition:background .2s; }
+  .btn { padding:15px 26px; }
+  .btn:hover,.float:hover { background:var(--gold-l); }
+  .portrait { position:relative; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:radial-gradient(circle at 50% 30%,#3a3120,#121317 70%); }
+  .portrait img { display:block; width:100%; height:auto; }
+  .portrait figcaption { position:absolute; inset:auto 0 0; display:flex; flex-direction:column; padding:44px 20px 18px; background:linear-gradient(transparent,#08080af2 60%); }
+  .portrait strong { font:400 1.35rem 'Playfair Display',serif; color:#fff; }
+  .portrait span { color:var(--gold-l); font-size:.85rem; }
+  .section { padding-block:88px; }
+  .band { background:var(--panel); border-block:1px solid var(--line); }
+  .areas { list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:0 40px; margin-top:44px; }
+  .areas li { border-top:1px solid var(--gold); padding:22px 0 30px; }
+  .areas p,.steps p { color:var(--muted); font-size:.97rem; }
+  .steps { list-style:none; padding:0; counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:32px; margin-top:44px; }
+  .steps li { counter-increment:s; }
+  .steps li::before { content:counter(s,decimal-leading-zero); display:block; font:italic 2rem 'Playfair Display',serif; color:var(--gold); margin-bottom:12px; }
+  .about { display:grid; grid-template-columns:1fr 3fr; gap:32px; }
+  .quote { font-size:clamp(1.6rem,3.4vw,2.5rem); line-height:1.25; color:#fff; margin-bottom:24px; }
+  .about p:not(.quote,.eyebrow) { color:var(--muted); max-width:42em; }
+  .faq { margin-top:36px; border-bottom:1px solid var(--line); }
+  details { border-top:1px solid var(--line); }
+  summary { cursor:pointer; padding:20px 0; font-weight:500; color:#fff; }
+  summary::marker { color:var(--gold); }
+  details p { color:var(--muted); padding:0 0 22px; max-width:46em; }
+  .contact { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+  .contact .btn { margin-top:28px; }
+  dt { color:var(--gold); font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; }
+  dd { margin:4px 0 22px; overflow-wrap:anywhere; }
+  footer { padding-block:32px 40px; color:var(--muted); font-size:.85rem; }
+  .float { position:fixed; right:18px; bottom:18px; padding:13px 18px; box-shadow:0 8px 26px #0009; z-index:5; }
+  @media (max-width:860px) {
+    body { font-size:16px; }
+    nav { display:none; }
+    .hero,.contact,.about { grid-template-columns:1fr; }
+    .hero { gap:40px; padding-block:24px 64px; }
+    .portrait { max-width:400px; }
+    .section { padding-block:64px; }
+    .steps { grid-template-columns:1fr 1fr; }
+    footer { padding-bottom:90px; }
+  }
+  @media (max-width:480px) { .steps { grid-template-columns:1fr; } .btn { width:100%; justify-content:center; } }
+  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { transition:none!important; } }
+</style>
